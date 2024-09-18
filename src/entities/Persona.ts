@@ -12,33 +12,33 @@ export class Persona extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
   PersonaId: number;
 
-  @Column({ nullable: false })
+  @Column()
   PrimerNombre: string;
 
-  @Column()
+  @Column({ nullable: true })
   SegundoNombre: string;
 
-  @Column({ nullable: false })
+  @Column()
   PrimerApellido: string;
 
-  @Column()
+  @Column({ nullable: true })
   SegundoApellido: string;
 
-  @Column({ nullable: false })
+  @Column()
   Dni: string;
 
-  @Column()
+  @Column({ nullable: true })
   Telefono: string;
 
   @Column()
   Direccion: string;
 
-  @Column({ nullable: false })
+  @Column()
   FechaNacimiento: Date;
 
   @CreateDateColumn()
   CreatedAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ nullable: true })
   UpdatedAt: Date;
 }

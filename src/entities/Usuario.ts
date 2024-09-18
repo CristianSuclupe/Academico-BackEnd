@@ -7,22 +7,26 @@ import {
   OneToOne,
   JoinColumn,
   Entity,
+  ManyToOne,
+  BeforeInsert,
+  BeforeUpdate,
 } from "typeorm";
 import { Rol } from "./Rol";
 import { Persona } from "./Persona";
+import bcrypt from "bcrypt";
 
 @Entity()
 export class Usuario extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   UsuarioId: string;
 
-  @Column({ nullable: false })
+  @Column()
   Email: string;
 
-  @Column({ nullable: false })
+  @Column()
   Contrasena: string;
 
-  @OneToOne(() => Rol)
+  @ManyToOne(() => Rol, (rol) => rol.Usuario)
   @JoinColumn({ name: "RolId" })
   Rol: Rol;
 
@@ -30,9 +34,20 @@ export class Usuario extends BaseEntity {
   @JoinColumn({ name: "PersonaId" })
   Persona: Persona;
 
+  @Column({ default: false })
+  Anulado: Boolean;
+
   @CreateDateColumn()
   CreatedAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ nullable: true })
   UpdatedAt: Date;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword() {
+    if (this.Contrasena) {
+      this.Contrasena = await bcrypt.hash(this.Contrasena, 10);
+    }
+  }
 }

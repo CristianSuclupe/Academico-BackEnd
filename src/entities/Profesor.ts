@@ -23,9 +23,12 @@ export class Profesor extends BaseEntity {
   @Column()
   Especialidad: string;
 
+  @Column({ default: false })
+  Anulado: Boolean;
+
   @CreateDateColumn()
   CreatedAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ nullable: true })
   UpdatedAt: Date;
 }

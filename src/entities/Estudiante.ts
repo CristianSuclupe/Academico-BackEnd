@@ -6,6 +6,7 @@ import {
   OneToOne,
   JoinColumn,
   Entity,
+  Column,
 } from "typeorm";
 
 import { Persona } from "./Persona";
@@ -19,9 +20,12 @@ export class Estudiante extends BaseEntity {
   @JoinColumn({ name: "PersonaId" })
   Persona: Persona;
 
+  @Column({ default: false })
+  Anulado: Boolean;
+
   @CreateDateColumn()
   CreatedAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ nullable: true })
   UpdatedAt: Date;
 }
